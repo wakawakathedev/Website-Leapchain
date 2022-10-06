@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 
 import { MetaHeader } from '@/src/components/MetaHeader'
-import { PageHeader } from '@/src/components/NavHeader'
+import { PageHeader } from '@/src/components/PageHeader'
 import { Footer } from '@/src/components/Footer'
 import {DISCORD_URL} from '@/src/constants/links'
 

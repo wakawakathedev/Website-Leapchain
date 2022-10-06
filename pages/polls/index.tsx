@@ -1,12 +1,11 @@
 import { MetaHeader } from '@/src/components/MetaHeader'
-import { PageHeader } from '@/src/components/NavHeader'
+import { PageHeader } from '@/src/components/PageHeader'
 import { Footer } from '@/src/components/Footer'
 import { PageLayout } from '@/src/layouts/PageLayout'
 
 import styles from '../../styles/Home.module.css'
 
 import { Poll as PollDetail, PollStatus } from '@/src/types/Polls'
-import Link from 'next/link'
 
 type Props = {
   polls: PollDetail[]
@@ -16,18 +15,23 @@ type Poll = {
   _id: PollDetail['_id']
   title: PollDetail['title']
   description: PollDetail['description']
+  choices: PollDetail['choices']
 }
 
-const Poll = ({ _id, title, description }: Poll) => (
-  <li className="border rounded m-2 hover:opacity-80">
-    <a className="p-4 max-w-lg flex flex-col" href={`polls/${_id}`}>
-      <>
-        <h4 className="text-md font-bold py-2">{title}</h4>
-        <span className="text-sm">{description}</span>
-      </>
-    </a>
-  </li>
-)
+const Poll = ({ _id, title, description, choices }: Poll) => {
+  const totalVotes = choices?.reduce((a,b) => a += b.totalVotes, 0)
+  console.log(choices)
+  return (
+    <li className="border rounded m-2 hover:opacity-80">
+      <a className="p-4 max-w-lg flex flex-col" href={`polls/${_id}`}>
+        <>
+          <h4 className="text-md font-bold pt-2">{title}</h4>
+          <span className="pt-2 text-sm">{description}</span>
+          <span className="pt-2 text-xs">Total Votes: {totalVotes}</span>
+        </>
+      </a>
+    </li>
+)}
 
 const Polls = ({ polls }: Props) => {  
   const activePolls = polls.filter(poll => poll.status === PollStatus.InProgress)
@@ -49,7 +53,7 @@ const Polls = ({ polls }: Props) => {
               activePolls?.map(
                 (poll: Poll) => {
                   return (
-                    <Poll key={poll._id} _id={poll._id} title={poll.title} description={poll.description} />
+                    <Poll key={poll._id} {...poll} />
                   )
                 }
               )
