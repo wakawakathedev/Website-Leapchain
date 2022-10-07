@@ -9,16 +9,16 @@ export const PageHeader = () => {
 
   return (
     <>
-      <nav className="p-4 sticky top-0 md bg-black dark:border-white dark:border-b">
+      <nav className="p-4 sticky top-0 md bg-black border-white border-b">
         <div className="flex flex-wrap justify-between items-center">
           <Link href="/" className="flex items-center">
             <Image src='/leapchain.svg' alt="Vercel Logo" width={203} height={32} />
           </Link>
           <button data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center md:hidden" aria-controls="navbar-default" aria-expanded="false">
             <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" onClick={toggleMenu} />
+            <Bars3Icon className="h-6 w-6 text-white" onClick={toggleMenu} />
           </button>
-          <div className={`w-full md:block md:w-auto absolute md:static dark:md:border-none dark:xs:border-white dark:border-t bg-black left-0 top-16 ${showMenu ? 'sm:block' : 'hidden'}`} id="navbar-default">
+          <div className={`w-full md:block md:w-auto absolute md:static dark:md:border-none dark:border-t bg-black left-0 pt-1 top-16 ${showMenu ? 'sm:block' : 'hidden'}`} id="navbar-default">
             <ul className="flex flex-col p-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-black">
               <li>
                 <a target="_blank" rel="noreferrer" href="https://discord.com/invite/WnDvJSGaTA" className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-gray-400 md:hover:text-white hover:bg-gray-700 hover:text-white md:hover:bg-transparent">Discord</a>

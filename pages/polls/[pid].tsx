@@ -4,7 +4,6 @@ import { PageHeader } from '@/src/components/PageHeader'
 import { Footer } from '@/src/components/Footer'
 import { PageLayout } from '@/src/layouts/PageLayout'
 
-
 import styles from '../../styles/Home.module.css'
 
 type PollDetailProps = {
@@ -38,9 +37,9 @@ const Data = ({ id }) => {
     </div>
   )
 }
+
 const PollDetail = ({ id }: PollDetailProps) => {
   
-
   return (
     <>
       <MetaHeader title='Home' />
