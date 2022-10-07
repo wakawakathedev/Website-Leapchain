@@ -1,19 +1,44 @@
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
+import useSWR from 'swr'
 import { MetaHeader } from '@/src/components/MetaHeader'
 import { PageHeader } from '@/src/components/PageHeader'
 import { Footer } from '@/src/components/Footer'
 import { PageLayout } from '@/src/layouts/PageLayout'
 
-import { Poll } from '@/src/types/Polls'
 
 import styles from '../../styles/Home.module.css'
 
+type PollDetailProps = {
+  id: string
+}
 
-const PollDetail = () => {
-  const router = useRouter()
-  const {pid} = router.query
+const Data = ({ id }) => {
+  const fetcher = (...args) => fetch(...args).then(res => res.json())
+  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API}/api/v1/polls/${id}`, fetcher)
+  
+  if (!data) return (<div>loading</div>)
+  if (error) return (<div>error</div>)
 
+  if (data.errors.length) {
+    return (
+      <div>Something went wrong</div>
+    )
+  }
+
+  return (
+    <div className="max-w-xs md:max-w-lg border p-4 rounded border-black dark:border-white">
+      <h4 className="text-center font-bold md:text-lg overflow-hidden pb-2">{data?.title}</h4>
+      <h5>{data?.description}</h5>
+      <h6 className="text-xs py-2">{data?.url}</h6>
+
+      <div>{
+        data?.choices?.map((choice: any) => {
+          return (<div key={choice._id}>{choice.title} / {choice.totalVotes}</div>)
+        })
+      }</div>
+    </div>
+  )
+}
+const PollDetail = ({ id }: PollDetailProps) => {
   
 
   return (
@@ -24,9 +49,7 @@ const PollDetail = () => {
 
       <PageLayout>
         <main className={styles.main}>
-          <div className='mt-8'>
-            <h2 className="text-center mb-4">{pid}</h2>
-          </div>
+          <Data id={id} />
         </main>
       </PageLayout>
       <Footer />
@@ -34,18 +57,13 @@ const PollDetail = () => {
   )
 }
 
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      id: context.query.pid
+    }
+  }
+}
 
-
-// export async function getStaticProps({ params }) {
-//   const id = params.id
-//   const res = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/v1/polls/${id}`)
-
-//   const poll = await res?.json()
-//   return {
-//     props: {
-//       poll,
-//     }, // will be passed to the page component as props
-//   }
-// }
 
 export default PollDetail
