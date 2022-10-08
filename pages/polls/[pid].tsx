@@ -1,8 +1,10 @@
+import { GetServerSideProps } from 'next'
 import useSWR from 'swr'
 import { MetaHeader } from '@/src/components/MetaHeader'
 import { PageHeader } from '@/src/components/PageHeader'
 import { Footer } from '@/src/components/Footer'
 import { PageLayout } from '@/src/layouts/PageLayout'
+import { fetcher } from '@/src/utils/fetcher'
 
 import styles from '../../styles/Home.module.css'
 
@@ -10,8 +12,7 @@ type PollDetailProps = {
   id: string
 }
 
-const Data = ({ id }) => {
-  const fetcher = (...args) => fetch(...args).then(res => res.json())
+const Data = ({ id }: PollDetailProps) => {
   const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API}/api/v1/polls/${id}`, fetcher)
   
   if (!data) return (<div>loading</div>)
@@ -39,7 +40,6 @@ const Data = ({ id }) => {
 }
 
 const PollDetail = ({ id }: PollDetailProps) => {
-  
   return (
     <>
       <MetaHeader title='Home' />
@@ -56,7 +56,7 @@ const PollDetail = ({ id }: PollDetailProps) => {
   )
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       id: context.query.pid
