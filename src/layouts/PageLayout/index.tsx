@@ -1,5 +1,5 @@
 type Props = {
-  children: JSX.Element
+  children: React.ReactNode
 }
 
 export const PageLayout = ({ children }: Props) => (

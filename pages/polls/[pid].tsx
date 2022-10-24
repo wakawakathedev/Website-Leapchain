@@ -18,7 +18,7 @@ const Data = ({ id }: PollDetailProps) => {
   if (!data) return (<div>loading</div>)
   if (error) return (<div>error</div>)
 
-  if (data.errors.length) {
+  if (data?.errors.length) {
     return (
       <div>Something went wrong</div>
     )
